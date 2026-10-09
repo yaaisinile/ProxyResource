@@ -4,10 +4,7 @@
 [General]
 ip-mode = v4-only
 ipv6-vif = off
-# 锁死 warn 级别，熄屏彻底停止写盘
-log-level = warn
 dns-server = system
-# 关闭不必要的后台网络嗅探，进一步省电
 sni-sniffing = false
 disable-stun = true
 dns-reject-mode = LoopbackIP
