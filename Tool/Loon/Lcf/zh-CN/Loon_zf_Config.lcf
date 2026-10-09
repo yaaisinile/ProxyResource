@@ -95,17 +95,154 @@ https://kelee.one/Tool/Loon/Lsr/REGION_SPLITTER.lsr, policy=DIRECT, tag=CN REGIO
 
 [Script]
 
+# Loon 极简超长续航 & AI 解锁版 (24H低频更新优化)
+# 特性：纯手动选择策略（0后台探测，0夜间偷跑电），独立 AI 规则组（防封锁/防漂移），资源更新周期统一切换为 24 小时
+
+[General]
+ip-mode = v4-only
+ipv6-vif = off
+# 锁死 warn 级别，熄屏彻底停止写盘
+log-level = warn
+dns-server = system
+# 关闭不必要的后台网络嗅探，进一步省电
+sni-sniffing = false
+disable-stun = true
+dns-reject-mode = LoopbackIP
+domain-reject-mode = DNS
+udp-fallback-mode = REJECT
+wifi-access-http-port = 7222
+wifi-access-socks5-port = 7221
+allow-wifi-access = false
+interface-mode = auto
+test-timeout = 5
+disconnect-on-policy-change = false
+internet-test-url = http://connectivitycheck.platform.hicloud.com/generate_204
+proxy-test-url = http://www.gstatic.com/generate_204
+resource-parser = https://raw.githubusercontent.com/sub-store-org/Sub-Store/release/sub-store-parser.loon.min.js
+geoip-url = https://geodata.kelee.one/Country-Masaiki.mmdb
+ipasn-url = https://geodata.kelee.one/GeoLite2-ASN-P3TERX.mmdb
+skip-proxy = 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, e.crashlynatics.com
+bypass-tun = 10.0.0.0/8, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16, 172.16.0.0/12, 192.0.0.0/24, 192.0.2.0/24, 192.88.99.0/24, 192.168.0.0/16, 198.51.100.0/24, 203.0.113.0/24, 224.0.0.0/4, 255.255.255.255/32
+
+[Proxy]
+
+[Remote Proxy]
+
+[Remote Filter]
+香港节点 = NameRegex, FilterKey="^(?=.*((?i)🇭🇰|香港|(\b(HK|HKG|Hong)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
+台湾节点 = NameRegex, FilterKey="^(?=.*((?i)🇹🇼|台湾|(\b(TW|TWN|Tai|Taiwan)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
+日本节点 = NameRegex, FilterKey="^(?=.*((?i)🇯🇵|日本|川日|东京|大阪|泉日|埼玉|(\b(JP|JPN|Japan)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
+韩国节点 = NameRegex, FilterKey="^(?=.*((?i)🇰🇷|韩国|韓|首尔|(\b(KR|KOR|Korea)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
+新国节点 = NameRegex, FilterKey="^(?=.*((?i)🇸🇬|新加坡|狮|(\b(SG|SGP|Singapore)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
+美国节点 = NameRegex, FilterKey="^(?=.*((?i)🇺🇸|美国|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|(\b(US|USA|United States)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮|(\b(GAME)\b))).*$"
+游戏节点 = NameRegex, FilterKey="^(?=.*((?i)游戏|🎮|(\b(GAME)(\d+)?\b)))(?!.*((?i)回国|校园)).*$"
+全球节点 = NameRegex, FilterKey="^(?=.*(.))(?!.*((?i)群|邀请|返利|循环|官网|客服|网站|网址|获取|订阅|流量|到期|机场|下次|版本|官址|备用|过期|已用|联系|邮箱|工单|贩卖|通知|倒卖|防止|国内|地址|频道|无法|说明|使用|提示|特别|访问|支持|教程|关注|更新|作者|加入|超时|收藏|福利|邀请|好友|失联|(\b(USE|USED|TOTAL|EXPIRE|EMAIL|Panel|Channel|Author|Traffic)(\d+)?\b|(\d{4}-\d{2}-\d{2}|\dG)))).*$"
+
+[Proxy Group]
+# 1. AI 专用组：纯手动选择，剔除香港，避免风控地区限制
+🤖 人工智能 = select, 美国手动策略, 新国手动策略, 日本手动策略, 台湾手动策略, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/OpenAI.png
+
+# 2. 全局主代理组：纯 select 模式，无任何定时 ping 探测，不碰手机则 0 发包
+🚀 节点选择 = select, 香港手动策略, 台湾手动策略, 日本手动策略, 新国手动策略, 美国手动策略, 韩国手动策略, 全球手动策略, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/Static.png
+
+# 3. 基础区域手动策略组
+香港手动策略 = select, 香港节点, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/HK.png
+台湾手动策略 = select, 台湾节点, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/TW.png
+日本手动策略 = select, 日本节点, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/JP.png
+韩国手动策略 = select, 韩国节点, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/KR.png
+新国手动策略 = select, 新国节点, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/SG.png
+美国手动策略 = select, 美国节点, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/US.png
+游戏手动策略 = select, 游戏节点, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/GAME.png
+全球手动策略 = select, 全球节点, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/Global.png
+
+[Rule]
+# --- 本地高优先级 AI 规则（覆盖 ChatGPT / Gemini / Claude / Grok）---
+DOMAIN-SUFFIX,openai.com,🤖 人工智能
+DOMAIN-SUFFIX,chatgpt.com,🤖 人工智能
+DOMAIN-SUFFIX,oaistatic.com,🤖 人工智能
+DOMAIN-SUFFIX,oaiusercontent.com,🤖 人工智能
+DOMAIN-SUFFIX,sora.com,🤖 人工智能
+DOMAIN-KEYWORD,openaicomproductionae,🤖 人工智能
+
+DOMAIN-SUFFIX,bard.google.com,🤖 人工智能
+DOMAIN-SUFFIX,gemini.google.com,🤖 人工智能
+DOMAIN-SUFFIX,generativelanguage.googleapis.com,🤖 人工智能
+DOMAIN-KEYWORD,alkalimakersuite,🤖 人工智能
+
+DOMAIN-SUFFIX,x.ai,🤖 人工智能
+DOMAIN-SUFFIX,grok.com,🤖 人工智能
+
+DOMAIN-SUFFIX,anthropic.com,🤖 人工智能
+DOMAIN-SUFFIX,claude.ai,🤖 人工智能
+
+# --- 兜底走静默的手动代理组 ---
+FINAL, 🚀 节点选择
+
+[Remote Rule]
+https://kelee.one/Tool/Loon/Lsr/AI.lsr, policy=🤖 人工智能, tag=AI, interval=86400, enabled=true
+https://rule.kelee.one/Loon/Telegram.lsr, policy=🚀 节点选择, tag=Telegram, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lsr/TikTok.lsr, policy=新国手动策略, tag=TikTok, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lsr/SpeedtestInternational.lsr, policy=全球手动策略, tag=Speedtest Intl, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lsr/LAN_SPLITTER.lsr, policy=DIRECT, tag=LAN, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lsr/REGION_SPLITTER.lsr, policy=DIRECT, tag=CN REGION, interval=86400, enabled=true
+
+[Host]
+
+[Rewrite]
+
+[Script]
+
 [Plugin]
-# 仅保留低功耗必备插件
-https://kelee.one/Tool/Loon/Lpx/Block_HTTPDNS.lpx, pin=true, enabled=true
-https://kelee.one/Tool/Loon/Lpx/BlockAdvertisers.lpx, pin=true, enabled=true
-https://kelee.one/Tool/Loon/Lpx/QuickSearch.lpx, enabled=true
-https://kelee.one/Tool/Loon/Lpx/Prevent_DNS_Leaks.lpx, policy=🚀 节点选择, enabled=true
-# 以下重型/后台定时插件全部彻底移除或默认关闭（解决夜间偷跑电）
-https://kelee.one/Tool/Loon/Lpx/Node_detection_tool.lpx, enabled=true
-https://kelee.one/Tool/Loon/Lpx/BoxJs.lpx, policy=🚀 节点选择, enabled=false
-https://kelee.one/Tool/Loon/Lpx/Sub-Store.lpx, policy=🚀 节点选择, enabled=false
-https://kelee.one/Tool/Loon/Lpx/Script-Hub.lpx, policy=🚀 节点选择, enabled=false
+# 基础与防泄漏优化（更新周期设为 86400 秒/24小时）
+https://kelee.one/Tool/Loon/Lpx/Block_HTTPDNS.lpx, pin=true, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/BlockAdvertisers.lpx, pin=true, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Prevent_DNS_Leaks.lpx, policy=🚀 节点选择, interval=86400, enabled=true
+https://raw.githubusercontent.com/sub-store-org/Sub-Store/master/config/Loon-parser.plugin, interval=86400, enabled=true
+
+# 各大 App 去广告及实用功能插件（更新周期设为 86400 秒/24小时）
+https://kelee.one/Tool/Loon/Lpx/JD_Price.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/LOL_Bible_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/RedPaper_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/FleaMarket_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/WexinMiniPrograms_Remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Weixin_external_links_unlock.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Weixin_Official_Accounts_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/NetEaseGodlike_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Taobao_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/PinDuoDuo_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Remove_ads_by_keli.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/JD_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/91160_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/MrHema_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/AlcidaeVideo_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/GaoDing_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Amap_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/FC_Box_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/DiDi_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Damai_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Cainiao_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Bilibili_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/BaiduSearchWebpage_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/BaiduNetDisk_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/BaiduTranslate_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/AliYunDrive_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/QQMusic_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/QQ_Redirect.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/12306_remove_ads.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/QuickSearch.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/TestFlightRegionUnlock.lpx, policy=DIRECT, interval=86400, enabled=false
+
+# ⚠️ 高功耗/常驻轮询插件已全部关闭或移除（彻底解决夜间偷跑电）
+https://kelee.one/Tool/Loon/Lpx/NodeLinkCheck.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Node_detection_tool.lpx, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/BoxJs.lpx, policy=🚀 节点选择, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Script-Hub.lpx, policy=🚀 节点选择, interval=86400, enabled=true
+
+[Mitm]
+hostname = 
+ca-p12 = 
+ca-passphrase = 
+skip-server-cert-verify = false
 
 [Mitm]
 hostname=
