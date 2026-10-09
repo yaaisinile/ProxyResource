@@ -14,15 +14,15 @@ wifi-access-http-port = 7222
 wifi-access-socks5-port = 7221
 allow-wifi-access = false
 interface-mode = auto
-test-timeout = 5
-disconnect-on-policy-change = false
+test-timeout = 2
+disconnect-on-policy-change = true
 internet-test-url = http://connectivitycheck.platform.hicloud.com/generate_204
 proxy-test-url = http://www.gstatic.com/generate_204
 resource-parser = https://raw.githubusercontent.com/sub-store-org/Sub-Store/release/sub-store-parser.loon.min.js
 geoip-url = https://geodata.kelee.one/Country-Masaiki.mmdb
 ipasn-url = https://geodata.kelee.one/GeoLite2-ASN-P3TERX.mmdb
-skip-proxy = 192.168.0.0/16, 10.0.0.0/8, 172.16.0.0/12, localhost, *.local, e.crashlynatics.com
-bypass-tun = 10.0.0.0/8, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16, 172.16.0.0/12, 192.0.0.0/24, 192.0.2.0/24, 192.88.99.0/24, 192.168.0.0/16, 198.51.100.0/24, 203.0.113.0/24, 224.0.0.0/4, 255.255.255.255/32
+skip-proxy = 192.168.0.0/16,10.0.0.0/8,172.16.0.0/12,localhost,*.local,e.crashlynatics.com
+bypass-tun = 10.0.0.0/8,100.64.0.0/10,127.0.0.0/8,169.254.0.0/16,172.16.0.0/12,192.0.0.0/24,192.0.2.0/24,192.88.99.0/24,192.168.0.0/16,198.51.100.0/24,203.0.113.0/24,224.0.0.0/4,255.255.255.255/32,17.249.0.0/16,17.252.0.0/16,17.57.144.0/22,17.188.128.0/18,17.188.20.0/23
 
 [Proxy]
 
@@ -79,14 +79,16 @@ DOMAIN-SUFFIX,claude.ai,🤖 人工智能
 FINAL, 🚀 节点选择
 
 [Remote Rule]
-https://kelee.one/Tool/Loon/Lsr/AI.lsr, policy=🤖 人工智能, tag=AI, interval=86400, enabled=true
-https://rule.kelee.one/Loon/Telegram.lsr, policy=🚀 节点选择, tag=Telegram, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lsr/TikTok.lsr, policy=新国手动策略, tag=TikTok, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lsr/SpeedtestInternational.lsr, policy=全球手动策略, tag=Speedtest Intl, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lsr/LAN_SPLITTER.lsr, policy=DIRECT, tag=LAN, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lsr/REGION_SPLITTER.lsr, policy=DIRECT, tag=CN REGION, interval=86400, enabled=true
+https://rule.kelee.one/Loon/Apple.lsr, policy=DIRECT, tag=Apple.lsr, enabled=true
+https://kelee.one/Tool/Loon/Lsr/AI.lsr, policy=🤖 人工智能, tag=AI, enabled=true
+https://rule.kelee.one/Loon/Telegram.lsr, policy=🚀 节点选择, tag=Telegram, enabled=true
+https://kelee.one/Tool/Loon/Lsr/TikTok.lsr, policy=新国手动策略, tag=TikTok, enabled=true
+https://kelee.one/Tool/Loon/Lsr/SpeedtestInternational.lsr, policy=全球手动策略, tag=Speedtest Intl, enabled=false
+https://kelee.one/Tool/Loon/Lsr/LAN_SPLITTER.lsr, policy=DIRECT, tag=LAN, enabled=true
+https://kelee.one/Tool/Loon/Lsr/REGION_SPLITTER.lsr, policy=DIRECT, tag=CN REGION, enabled=true
 
 [Host]
+iosapps.itunes.apple.com = iosapps.itunes.apple.com.download.ks-cdn.com
 
 [Rewrite]
 
@@ -94,49 +96,49 @@ https://kelee.one/Tool/Loon/Lsr/REGION_SPLITTER.lsr, policy=DIRECT, tag=CN REGIO
 
 [Plugin]
 # 基础与防泄漏优化（更新周期设为 86400 秒/24小时）
-https://kelee.one/Tool/Loon/Lpx/Block_HTTPDNS.lpx, pin=true, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/BlockAdvertisers.lpx, pin=true, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/Prevent_DNS_Leaks.lpx, policy=🚀 节点选择, interval=86400, enabled=true
-https://raw.githubusercontent.com/sub-store-org/Sub-Store/master/config/Loon-parser.plugin, interval=86400, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Block_HTTPDNS.lpx, pin=true, enabled=true
+https://kelee.one/Tool/Loon/Lpx/BlockAdvertisers.lpx, pin=true, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Prevent_DNS_Leaks.lpx, policy=🚀 节点选择, enabled=false
+https://raw.githubusercontent.com/sub-store-org/Sub-Store/master/config/Loon-parser.plugin, enabled=true
 
 # 各大 App 去广告及实用功能插件（更新周期设为 86400 秒/24小时）
-https://kelee.one/Tool/Loon/Lpx/JD_Price.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/LOL_Bible_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/RedPaper_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/FleaMarket_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/WexinMiniPrograms_Remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/Weixin_external_links_unlock.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/Weixin_Official_Accounts_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/NetEaseGodlike_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/Taobao_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/PinDuoDuo_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/Remove_ads_by_keli.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/JD_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/91160_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/MrHema_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/AlcidaeVideo_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/GaoDing_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/Amap_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/FC_Box_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/DiDi_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/Damai_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/Cainiao_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/Bilibili_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/BaiduSearchWebpage_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/BaiduNetDisk_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/BaiduTranslate_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/AliYunDrive_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/QQMusic_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/QQ_Redirect.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/12306_remove_ads.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/QuickSearch.lpx, interval=86400, enabled=true
-https://kelee.one/Tool/Loon/Lpx/TestFlightRegionUnlock.lpx, policy=DIRECT, interval=86400, enabled=false
+https://kelee.one/Tool/Loon/Lpx/JD_Price.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/LOL_Bible_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/RedPaper_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/FleaMarket_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/WexinMiniPrograms_Remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Weixin_external_links_unlock.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Weixin_Official_Accounts_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/NetEaseGodlike_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Taobao_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/PinDuoDuo_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Remove_ads_by_keli.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/JD_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/91160_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/MrHema_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/AlcidaeVideo_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/GaoDing_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Amap_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/FC_Box_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/DiDi_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Damai_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Cainiao_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/Bilibili_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/BaiduSearchWebpage_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/BaiduNetDisk_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/BaiduTranslate_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/AliYunDrive_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/QQMusic_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/QQ_Redirect.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/12306_remove_ads.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/QuickSearch.lpx, enabled=true
+https://kelee.one/Tool/Loon/Lpx/TestFlightRegionUnlock.lpx, policy=DIRECT, enabled=false
 
 # ⚠️ 高功耗/常驻轮询插件已全部关闭或移除（彻底解决夜间偷跑电）
-https://kelee.one/Tool/Loon/Lpx/NodeLinkCheck.lpx, interval=86400, enabled=false
-https://kelee.one/Tool/Loon/Lpx/Node_detection_tool.lpx, interval=86400, enabled=false
-https://kelee.one/Tool/Loon/Lpx/BoxJs.lpx, policy=🚀 节点选择, interval=86400, enabled=false
-https://kelee.one/Tool/Loon/Lpx/Script-Hub.lpx, policy=🚀 节点选择, interval=86400, enabled=false
+https://kelee.one/Tool/Loon/Lpx/NodeLinkCheck.lpx, enabled=false
+https://kelee.one/Tool/Loon/Lpx/Node_detection_tool.lpx, enabled=false
+https://kelee.one/Tool/Loon/Lpx/BoxJs.lpx, policy=🚀 节点选择, enabled=false
+https://kelee.one/Tool/Loon/Lpx/Script-Hub.lpx, policy=🚀 节点选择, enabled=true
 
 [Mitm]
 hostname = 
